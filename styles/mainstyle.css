@@ -1,0 +1,9 @@
+canvas{
+    border:5px solid #28c022;
+    
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
