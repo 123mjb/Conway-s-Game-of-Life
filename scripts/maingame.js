@@ -64,9 +64,11 @@ class Grid {
                         next[i][j] = 0; // Underpopulation
                     } else if (total > 3) {
                         next[i][j] = 0; // overpopulation
-                    } else if (total === 3 || total === 2) {
+                    } else if (total === 3) {
                         next[i][j] = 1;
-                    } else {
+                    }else if (total === 2 && this.arra[i][j] === 1) {
+                        next[i][j] = 1; // stays alive
+                    }else {
                         next[i][j] = 0;
                     }
                 }
