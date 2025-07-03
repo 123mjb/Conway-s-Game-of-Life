@@ -12,7 +12,9 @@ window.addEventListener('keydown', (e) => { grid.KeyPresses(e) })
 
 var slider = document.getElementById("Slider");
 var output = document.getElementById("SpeedOut");
+var button = document.getElementById("butn");
 
+button.addEventListener('click',(e)=>grid.ButtonClicked(e))
 slider.addEventListener('change',(e)=>grid.UpdateSpeed(e))
 
 class Grid {
@@ -29,6 +31,7 @@ class Grid {
         this.ctx = canvas.getContext('2d');
         this.slider = document.getElementById("Slider");
         this.output = document.getElementById("SpeedOut");
+        var button = document.getElementById("butn");
         this.canvas.addEventListener('click', (event) => { this.ClickGrid(event); this.DrawGrid() });
     }
     ClickGrid(event) {
@@ -58,8 +61,7 @@ class Grid {
     }
     KeyPresses(e) {
         if (e.keyCode === 32) {
-            this.running = (!(this.running));
-            if (this.running) { this.Run() } else { this.Stop() }
+            this.ChangeRunning()
         }
     }
     Run() {
@@ -91,10 +93,25 @@ class Grid {
         clearInterval(this.IntervalID);
     }
     UpdateSpeed(e){
-        this.Stop();
         this.interval=slider.value*10;
         this.output.innerHTML = ((slider.value*10)+"ms")
-        this.Run();
+        if (this.running){
+            this.Stop();
+            this.Run();
+        }
+    }
+    ButtonClicked(e){
+        this.ChangeRunning()
+    }
+    ChangeRunning(){
+        this.running=!this.running
+        if (this.running){
+            this.Run()
+            button.innerText="Stop"
+        }else{
+            this.Stop()
+            button.innerText="Start"
+        }
     }
 
 
@@ -128,6 +145,5 @@ function makeArray(d1, d2) {
     }
     return finalarr;
 }
-
 
 
