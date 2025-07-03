@@ -7,3 +7,12 @@ canvas{
     justify-content: center;
     align-items: center;
 }
+
+.btn {
+  border: none;
+  background-color: inherit;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+}
