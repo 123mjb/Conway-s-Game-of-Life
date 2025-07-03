@@ -105,13 +105,6 @@ class Grid {
 }
 
 function makeArray(d1, d2) {
-    var arr =[];
-    for(let j =0;j<d2;j++){
-        arr[j]=0;
-    }
-    let finalarr = new Array(d1);
-    for (let i = 0; i < d1; i++) {
-        finalarr[i] = [...arr];
-    }
+    let finalarr = new Array(d1).fill([...Array(d2).fill(0)]);
     return finalarr;
 }
