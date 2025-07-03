@@ -56,7 +56,7 @@ class Grid {
     }
     Run() {
         this.IntervalID = setInterval(() => {
-            let next = [...this.arra];
+            let next = makeArray(this.x, this.y);
             for (let i = 0; i < this.x; i++) {
                 for (let j = 0; j < this.y; j++) {
                     var total = this.FindTotalSurrounmding(i, j);
