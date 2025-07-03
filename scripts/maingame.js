@@ -17,6 +17,7 @@ var button = document.getElementById("butn");
 button.addEventListener('click',(e)=>grid.ButtonClicked(e))
 slider.addEventListener('change',(e)=>grid.UpdateSpeed(e))
 
+
 class Grid {
     constructor(Width, Height) {
         this.interval = 2000;
@@ -33,6 +34,8 @@ class Grid {
         this.output = document.getElementById("SpeedOut");
         var button = document.getElementById("butn");
         this.canvas.addEventListener('click', (event) => { this.ClickGrid(event); this.DrawGrid() });
+        
+        this.UpdateSpeed()
     }
     ClickGrid(event) {
         const rect = this.canvas.getBoundingClientRect();
@@ -93,8 +96,10 @@ class Grid {
         clearInterval(this.IntervalID);
     }
     UpdateSpeed(e){
-        this.interval=slider.value*10;
-        this.output.innerHTML = ((slider.value*10)+"ms")
+        console.log(slider.value);
+        let val =10*(slider.value-1);
+        this.interval=val;
+        this.output.innerHTML = ((val)+"ms")
         if (this.running){
             this.Stop();
             this.Run();
