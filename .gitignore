@@ -1,2 +1,4 @@
 /.vscode
 /Conway's Game of Life.code-workspace
+setup.py
+.gitignore
