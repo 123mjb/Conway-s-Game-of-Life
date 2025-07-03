@@ -10,9 +10,14 @@ canvas{
 
 .btn {
   border: none;
-  background-color: inherit;
+  background-color: gray;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
   display: inline-block;
+  border-radius: 12px;
+}
+
+.slider{
+  width: 400px;
 }

@@ -10,8 +10,14 @@ canvas = document.getElementById('Canvas');
 window.addEventListener('load', function () { grid = new Grid(canvas.clientWidth, canvas.clientHeight); grid.DrawGrid() }, false)
 window.addEventListener('keydown', (e) => { grid.KeyPresses(e) })
 
+var slider = document.getElementById("Slider");
+var output = document.getElementById("SpeedOut");
+
+slider.addEventListener('change',(e)=>grid.UpdateSpeed(e))
+
 class Grid {
     constructor(Width, Height) {
+        this.interval = 2000;
         this.IntervalID = null;
         this.running = false;
         this.width = Width;
@@ -21,6 +27,8 @@ class Grid {
         this.arra = makeArray(this.x,);
         this.canvas = document.getElementById('Canvas');
         this.ctx = canvas.getContext('2d');
+        this.slider = document.getElementById("Slider");
+        this.output = document.getElementById("SpeedOut");
         this.canvas.addEventListener('click', (event) => { this.ClickGrid(event); this.DrawGrid() });
     }
     ClickGrid(event) {
@@ -59,7 +67,7 @@ class Grid {
             let next = makeArray(this.x, this.y);
             for (let i = 0; i < this.x; i++) {
                 for (let j = 0; j < this.y; j++) {
-                    var total = this.FindTotalSurrounmding(i, j);
+                    var total = this.FindTotalSurrounding(i, j);
                     if (total < 2) {
                         next[i][j] = 0; // Underpopulation
                     } else if (total > 3) {
@@ -76,13 +84,21 @@ class Grid {
             this.arra = next;
             //console.log(this.arra);
             this.DrawGrid();
-        }, 2000);
+        }, this.interval);
         // The above code runs every 2000 milliseconds, you can adjust this value for speed
     }
     Stop() {
         clearInterval(this.IntervalID);
     }
-    FindTotalSurrounmding(i, j) {
+    UpdateSpeed(e){
+        this.Stop();
+        this.interval=slider.value*10;
+        this.output.innerHTML = ((slider.value*10)+"ms")
+        this.Run();
+    }
+
+
+    FindTotalSurrounding(i, j) {
         let total = 0;
         [-1, 0, 1].forEach(dx => {
             [-1, 0, 1].forEach(dy => {
@@ -112,3 +128,6 @@ function makeArray(d1, d2) {
     }
     return finalarr;
 }
+
+
+
