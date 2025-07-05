@@ -5,7 +5,7 @@ var grid;
 // ctx.fillRect(10, 10, 50, 50);
 // ctx.fillStyle = "rgb(0 0 200 / 50%)";
 // ctx.fillRect(30, 30, 50, 50);
-let canvas: HTMLElement|null = document.getElementById('Canvas');
+let canvas: HTMLElement = document.getElementById('Canvas')!;
 if (canvas !== null)window.addEventListener('load', function () { grid = new ConwayGrid(canvas.clientWidth, canvas.clientHeight); grid.DrawGrid() }, false)
 window.addEventListener('keydown', (e) => { grid.KeyPresses(e) })
 
@@ -28,7 +28,7 @@ class ConwayGrid {
     arra: any[];
     canvas: HTMLElement | null;
     ctx: any;
-    slider: HTMLElement | null;
+    slider: HTMLInputElement | null;
     output: HTMLElement | null;
     constructor(Width:number, Height:number) {
         this.interval = 2000;
@@ -43,7 +43,7 @@ class ConwayGrid {
         if (this.canvas !== null && 'getContext' in this.canvas) {
             this.ctx = (this.canvas as HTMLCanvasElement).getContext('2d');
         }
-        this.slider = document.getElementById("Slider");
+        this.slider = document.getElementById("Slider") as HTMLInputElement | null;
         this.output = document.getElementById("SpeedOut");
         var button = document.getElementById("butn");
         if (this.canvas !== null) {
@@ -114,7 +114,7 @@ class ConwayGrid {
     UpdateSpeed(){
         if (this.slider === null || this.output === null) return;
         console.log(this.slider.value);
-        let val =10*(this.slider.value-1);
+        let val:number =10*(Number(this.slider.value)-1);
         this.interval=val;
         this.output.innerHTML = ((val)+"ms")
         if (this.running){
