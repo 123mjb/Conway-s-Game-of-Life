@@ -1,5 +1,5 @@
 
-var grid;
+var grid: ConwayGrid;
 
 // ctx.fillStyle = "rgb(200 0 0)";
 // ctx.fillRect(10, 10, 50, 50);
@@ -14,7 +14,7 @@ var output = document.getElementById("SpeedOut");
 var button = document.getElementById("butn");
 
 if (button!==null)button.addEventListener('click',(e)=>grid.ButtonClicked(e))
-if (slider!==null)slider.addEventListener('change',(e)=>grid.UpdateSpeed(e))
+if (slider!==null)slider.addEventListener('change',(e)=>grid.UpdateSpeed())
 
 
 class ConwayGrid {
@@ -26,10 +26,11 @@ class ConwayGrid {
     x: number;
     y: number;
     arra: any[];
-    canvas: HTMLElement | null;
+    canvas: HTMLElement;
     ctx: any;
-    slider: HTMLInputElement | null;
-    output: HTMLElement | null;
+    slider: HTMLInputElement;
+    output: HTMLElement;
+    button: HTMLElement;
     constructor(Width:number, Height:number) {
         this.interval = 2000;
         this.running = false;
@@ -38,22 +39,19 @@ class ConwayGrid {
         this.x = Math.trunc(this.width / 5);
         this.y = Math.trunc(this.height / 5);
         this.arra = this.makeArray(this.x,this.y);
-        this.canvas = document.getElementById('Canvas');
+        this.canvas = (document.getElementById('Canvas')! as HTMLCanvasElement);
         this.ctx = null;
-        if (this.canvas !== null && 'getContext' in this.canvas) {
-            this.ctx = (this.canvas as HTMLCanvasElement).getContext('2d');
+        if ('getContext' in this.canvas) {
+            this.ctx = (this.canvas as HTMLCanvasElement).getContext('2d') as CanvasRenderingContext2D;
         }
-        this.slider = document.getElementById("Slider") as HTMLInputElement | null;
-        this.output = document.getElementById("SpeedOut");
-        var button = document.getElementById("butn");
-        if (this.canvas !== null) {
-            this.canvas.addEventListener('click', (event) => { this.ClickGrid(event); this.DrawGrid() });
-        }
+        this.slider = document.getElementById("Slider") as HTMLInputElement;
+        this.output = document.getElementById("SpeedOut")!;
+        this.button = document.getElementById("butn")!;
+        this.canvas.addEventListener('click', (event) => { this.ClickGrid(event); this.DrawGrid() });
         
         this.UpdateSpeed()
     }
     ClickGrid(event: MouseEvent) {
-        if (!this.canvas) return;
         const rect = this.canvas.getBoundingClientRect();
         const x = Math.trunc((event.pageX - rect.left) / 5),
             y = Math.trunc((event.pageY - rect.top - window.scrollY) / 5);
@@ -122,23 +120,22 @@ class ConwayGrid {
             this.Run();
         }
     }
-    ButtonClicked(e){
+    ButtonClicked(e:Event){
         this.ChangeRunning()
     }
     ChangeRunning(){
         this.running=!this.running
-        if (button===null)return;
         if (this.running){
             this.Run()
-            button.innerText="Stop"
+            this.button.innerText="Stop"
         }else{
             this.Stop()
-            button.innerText="Start"
+            this.button.innerText="Start"
         }
     }
 
 
-    FindTotalSurrounding(i, j) {
+    FindTotalSurrounding(i:number, j:number) {
         let total = 0;
         [-1, 0, 1].forEach(dx => {
             [-1, 0, 1].forEach(dy => {
@@ -150,7 +147,7 @@ class ConwayGrid {
         }
         return total;
     }
-    GetValue(x, y) {
+    GetValue(x: number, y:number) {
         if (x < 0 || x >= this.x || y < 0 || y >= this.y) {
             return 0; // Out of bounds
         }
@@ -159,7 +156,7 @@ class ConwayGrid {
         }
         return this.arra[x][y];
     }
-    makeArray(d1, d2) {
+    makeArray(d1:number, d2:number) {
     let finalarr = new Array(d1)
     for (let i = 0; i < d1; i++) {
         finalarr[i] = new Array(d2).fill(0);
