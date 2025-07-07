@@ -229,8 +229,11 @@ class ConwayGrid {
     }
 
     DrawGrid2(visx: number, visy: number, squareSize: number, Height: number, Width: number) {
+        let arry: number = Math.trunc(visy/squareSize);
+        let arrx: number = Math.trunc(visx/squareSize);
         let startx: number = -Math.abs(((visx % squareSize) + squareSize) % squareSize);// Where the Squares Are Drawn From
         let starty: number = -Math.abs(((visy % squareSize) + squareSize) % squareSize);
+
 
         for (let i = 0; i < Math.ceil(Width / squareSize); i++) {
             for (let j = 0; j < Math.ceil(Height / squareSize); j++) {
@@ -239,6 +242,9 @@ class ConwayGrid {
         }
 
 
+    }
+    GetValue2(x:number,y:number){
+        
     }
 }
 
